@@ -2,7 +2,6 @@ import { genDiff } from "../src/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import parse from "../src/parser.js";
-import { resultTree } from "../src/gendiff.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
