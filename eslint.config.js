@@ -11,13 +11,12 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
 
 export default [
-  {rules: {
-    "import/extensions": 0,
-  "no-console": 0,
-  "no-underscore-dangle": [2, { "allow": ["__filename", "__dirname"] }]
-  }
-},
   {languageOptions: { globals: globals.browser }},
   ...compat.extends("airbnb"),
-  
+  {rules: {
+    "import/extensions": 0,
+    "no-console": 0,
+    "no-underscore-dangle": [2, { "allow": ["__filename", "__dirname", "import"] }]
+  }
+}
 ];
