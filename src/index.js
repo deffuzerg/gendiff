@@ -1,15 +1,22 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import parse from './parser.js';
-import resultTree from './gendiff.js';
+import { fileURLToPath } from "url";
+import differenceTree from './usages.js';
+import formater from './formater/index.js';
 
-const getPath = (filepath) => path.resolve(`${process.cwd()}`, filepath);
-console.log(getPath('file1.js'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const filePath = (filename) => path.resolve(__dirname, '..', '__fixtures__', filename);
+
+// const getPath = (filepath) => path.resolve(`${process.cwd()}`, filepath);
+
 const getFormat = (filepath) => path.extname(filepath);
 
-const genDiff = (filepath1, filepath2) => {
-  const path1 = getPath(filepath1);
-  const path2 = getPath(filepath2);
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
+  const path1 = filePath(filepath1);
+  const path2 = filePath(filepath2);
   const fileFormat1 = getFormat(path1);
   const fileFormat2 = getFormat(path2);
 
@@ -19,9 +26,9 @@ const genDiff = (filepath1, filepath2) => {
   const parsed1 = parse(obj1, fileFormat1);
   const parsed2 = parse(obj2, fileFormat2);
 
-  const result = resultTree(parsed1, parsed2);
-
-  return result;
+  const diff = differenceTree(parsed1, parsed2);
+  
+  return formater(diff, format);
 };
 
-export { genDiff} ;
+export {genDiff} ;

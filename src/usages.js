@@ -10,6 +10,9 @@ const differenceTree = (obj1, obj2) => {
     const oldValue = obj1[key];
     const newValue = obj2[key];
 
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+      return {action: 'nested', key, children: differenceTree(obj1[key], obj2[key])};
+    }
     if (!Object.hasOwn(obj1, key)) {
       return { action: 'add', key, value: newValue };
     }
@@ -21,6 +24,7 @@ const differenceTree = (obj1, obj2) => {
         action: 'modify', key, value1: oldValue, value2: newValue,
       };
     }
+
     return { action: 'nothing', key, value: oldValue };
   });
   return result;
